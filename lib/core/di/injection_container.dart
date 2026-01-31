@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../../features/signup/data/datasources/google_signup_datasource.dart';
 import '../../features/signup/data/datasources/manual_signup_datasource.dart';
@@ -39,5 +40,7 @@ Future<void> init() async {
   );
 
   // External
-  sl.registerLazySingleton(() => GoogleSignIn());
+  sl.registerLazySingleton<GoogleSignIn>(
+    () => GoogleSignIn(clientId: dotenv.env['GOOGLE_CLIENT_ID']),
+  );
 }

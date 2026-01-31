@@ -116,4 +116,33 @@ lib/
 -   **GetIt**: All dependencies (Use Cases, Repositories, Data Sources, External Libraries) are lazily loaded and injected, making the app highly testable and loosely coupled.
 
 ### 4. Mock Authenticated Session
+### 4. Mock Authenticated Session
 -   **Logout Capability**: Fully functional "Mock Logout" that clears the navigation stack and signs out of Google (if applicable), mimicking a real-world auth session life cycle.
+
+---
+
+## 🔐 Setup & Security
+
+This project uses `flutter_dotenv` to manage sensitive configuration like the Google Client ID.
+
+### 1. Environment Variables
+1.  Copy the example environment file:
+    ```bash
+    cp .env.example .env
+    ```
+2.  Open `.env` and add your Google Client ID:
+    ```
+    GOOGLE_CLIENT_ID=your-client-id-from-gcp.apps.googleusercontent.com
+    ```
+
+> **Note**: The `.env` file is git-ignored to prevent accidental exposure of your credentials.
+
+### 2. Web Configuration
+The `google_sign_in` package on Web requires the Client ID to be configured either in `index.html` or passed to the constructor. For better security and flexibility, we inject it via Dart code:
+```dart
+// lib/core/di/injection_container.dart
+sl.registerLazySingleton<GoogleSignIn>(
+  () => GoogleSignIn(clientId: dotenv.env['GOOGLE_CLIENT_ID']),
+);
+```
+Ensure you have the correct Client ID configured in your [Google Cloud Console](https://console.cloud.google.com/) for Web applications.

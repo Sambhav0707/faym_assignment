@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/di/injection_container.dart' as di;
 import 'features/signup/presentation/bloc/signup_bloc.dart';
@@ -6,6 +7,7 @@ import 'features/signup/presentation/pages/signup_selection_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await di.init();
   runApp(const MyApp());
 }
